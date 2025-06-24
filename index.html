@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五阶段AI产品开发系统 | 18小时独立开发AI产品</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36CFC9',
+                        accent: '#722ED1',
+                        dark: '#1D2129',
+                        light: '#F2F3F5'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .transition-navbar {
+                transition: all 0.3s ease-in-out;
+            }
+            .stage-card-hover {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .stage-card-hover:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50 text-dark">
+    <!-- 导航栏 -->
+    <nav id="navbar" class="fixed w-full top-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm transition-navbar py-4">
+        <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                    <i class="fa fa-cogs text-white text-xl"></i>
+                </div>
+                <span class="text-xl font-bold text-primary">AI开发系统</span>
+            </a>
+            
+            <!-- 桌面导航 -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#overview" class="text-gray-600 hover:text-primary transition-colors">系统概述</a>
+                <a href="#stages" class="text-gray-600 hover:text-primary transition-colors">五阶段详解</a>
+                <a href="#insights" class="text-gray-600 hover:text-primary transition-colors">关键启示</a>
+                <a href="#cta" class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg transition-colors">开始开发</a>
+            </div>
+            
+            <!-- 移动端菜单按钮 -->
+            <button id="menuBtn" class="md:hidden text-gray-600 focus:outline-none">
+                <i class="fa fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#overview" class="text-gray-600 hover:text-primary py-2 transition-colors">系统概述</a>
+                <a href="#stages" class="text-gray-600 hover:text-primary py-2 transition-colors">五阶段详解</a>
+                <a href="#insights" class="text-gray-600 hover:text-primary py-2 transition-colors">关键启示</a>
+                <a href="#cta" class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-center transition-colors">开始开发</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <header class="pt-32 pb-20 md:pt-40 md:pb-28 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-6">
+                    <i class="fa fa-lightbulb-o mr-2"></i>AI开发革命
+                </span>
+                <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight mb-6 text-shadow">
+                    18小时独立开发AI产品的<br><span class="text-primary">五阶段开发系统</span>
+                </h1>
+                <p class="text-[clamp(1.1rem,2vw,1.3rem)] text-gray-600 mb-10 max-w-3xl mx-auto">
+                    前美国Idealab AI负责人亲授，借助AI工具将传统团队数月的开发周期压缩至小时级，
+                    从战略洞察到产品上线的完整方法论
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#stages" class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all transform hover:scale-105 shadow-lg hover:shadow-primary/30">
+                        探索五阶段系统
+                    </a>
+                    <a href="#overview" class="bg-white hover:bg-gray-50 text-dark px-8 py-4 rounded-xl text-lg font-medium transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                        了解系统原理
+                    </a>
+                </div>
+                
+                <!-- 产品展示图 -->
+                <div class="mt-16 relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl blur-3xl opacity-50 animate-pulse"></div>
+                    <img src="https://picsum.photos/id/180/1200/600" alt="AI语音输入法产品展示" class="relative z-10 w-full max-w-4xl mx-auto rounded-xl shadow-2xl border border-gray-100">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 核心主张 -->
+    <section class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-6">核心主张</h2>
+                <p class="text-lg text-gray-600">个人开发者借助AI工具，可将传统团队数月的开发周期压缩至小时级</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-light rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fa fa-users text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">虚拟团队</h3>
+                    <p class="text-gray-600">用AI构建「虚拟团队」，覆盖战略、产品、设计、开发、营销全流程</p>
+                </div>
+                
+                <div class="bg-light rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fa fa-bolt text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">极速开发</h3>
+                    <p class="text-gray-600">从0到1完成Mac语音输入法「io」的开发，仅用18小时实现完整功能</p>
+                </div>
+                
+                <div class="bg-light rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fa fa-rocket text-accent text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">降低门槛</h3>
+                    <p class="text-gray-600">AI承担重复劳动，释放人去做更难被替代的「战略与连接」工作</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 系统概述 -->
+    <section id="overview" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <span class="inline-block px-4 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-4">
+                    系统化方法
+                </span>
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-6">五阶段AI产品开发系统</h2>
+                <p class="text-lg text-gray-600">从战略洞察到产品上线的完整路线图，每个阶段都有明确目标和AI工具支持</p>
+            </div>
+            
+            <!-- 阶段流程图 -->
+            <div class="relative max-w-5xl mx-auto">
+                <!-- 连接线 -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gray-200 -translate-y-1/2 z-0"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6 relative z-10">
+                    <!-- 阶段1 -->
+                    <div class="bg-white rounded-xl p-6 text-center shadow-md stage-card-hover">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">1</div>
+                        <h3 class="font-semibold mb-2">战略洞察</h3>
+                        <p class="text-sm text-gray-500">验证想法可行性</p>
+                    </div>
+                    
+                    <!-- 阶段2 -->
+                    <div class="bg-white rounded-xl p-6 text-center shadow-md stage-card-hover">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">2</div>
+                        <h3 class="font-semibold mb-2">产品孵化</h3>
+                        <p class="text-sm text-gray-500">转化为产品规划</p>
+                    </div>
+                    
+                    <!-- 阶段3 -->
+                    <div class="bg-white rounded-xl p-6 text-center shadow-md stage-card-hover">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">3</div>
+                        <h3 class="font-semibold mb-2">产品设计</h3>
+                        <p class="text-sm text-gray-500">掌握技能与资源</p>
+                    </div>
+                    
+                    <!-- 阶段4 -->
+                    <div class="bg-white rounded-xl p-6 text-center shadow-md stage-card-hover">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">4</div>
+                        <h3 class="font-semibold mb-2">核心构建</h3>
+                        <p class="text-sm text-gray-500">转化为可运行产品</p>
+                    </div>
+                    
+                    <!-- 阶段5 -->
+                    <div class="bg-white rounded-xl p-6 text-center shadow-md stage-card-hover">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">5</div>
+                        <h3 class="font-semibold mb-2">营销推广</h3>
+                        <p class="text-sm text-gray-500">冷启动获客与增长</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 开发效率对比 -->
+            <div class="mt-20 max-w-4xl mx-auto">
+                <h3 class="text-2xl font-bold text-center mb-10">传统开发 vs AI辅助开发</h3>
+                <div class="bg-white p-6 rounded-2xl shadow-md">
+                    <canvas id="developmentChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 五阶段详解 -->
+    <section id="stages" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <span class="inline-block px-4 py-1 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4">
+                    深度解析
+                </span>
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-6">五阶段系统详细解析</h2>
+                <p class="text-lg text-gray-600">每个阶段的目标、AI角色、工具和具体方法</p>
+            </div>
+            
+            <!-- 阶段1：战略洞察 -->
+            <div class="max-w-5xl mx-auto mb-24">
+                <div class="flex flex-col md:flex-row gap-10">
+                    <div class="md:w-1/3">
+                        <div class="sticky top-32">
+                            <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
+                                <i class="fa fa-search text-primary text-3xl"></i>
+                            </div>
+                            <span class="text-primary font-semibold">阶段 01</span>
+                            <h3 class="text-3xl font-bold mt-2 mb-4">战略洞察</h3>
+                            <p class="text-gray-600">验证想法可行性，避免无效投入</p>
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-2/3">
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-bullseye"></i>
+                                </span>
+                                目标
+                            </h4>
+                            <p class="text-gray-600">验证产品想法是否值得投入，通过AI进行深度市场调研、竞品分析和用户痛点挖掘</p>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-user-circle"></i>
+                                </span>
+                                AI角色：首席战略官（CSO）+ 首席信息官（CIO）
+                            </h4>
+                            <p class="text-gray-600">帮助快速学习新技术，搜索可用的开源框架和工具，并能将GitHub仓库变成AI问答库，快速理解和使用开源代码</p>
+                            <div class="mt-4 bg-white p-4 rounded-lg shadow-sm">
+                                <h5 class="font-medium text-gray-800 mb-2">关键提示词示例：</h5>
+                                <p class="text-sm text-gray-600 italic">"你现在是我的首席战略官(CSO)，拥有顶级的市场分析和技术洞察能力。我计划开发一款面向中文内容创作者的Mac实时语音输入App，请为我进行一次深入的市场分析和技术可行性研究..."</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-wrench"></i>
+                                </span>
+                                核心工具
+                            </h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 bg-white rounded-lg shadow-sm text-gray-700">Gemini Deep Research</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-check-square"></i>
+                                </span>
+                                输出成果
+                            </h4>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-primary mt-1 mr-3"></i>
+                                    <span>30-40页深度技术探讨论文</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-primary mt-1 mr-3"></i>
+                                    <span>市场规模评估与竞品分析</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-primary mt-1 mr-3"></i>
+                                    <span>用户痛点挖掘与技术趋势洞察</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 阶段2：产品孵化 -->
+            <div class="max-w-5xl mx-auto mb-24">
+                <div class="flex flex-col md:flex-row gap-10">
+                    <div class="md:w-1/3">
+                        <div class="sticky top-32">
+                            <div class="w-20 h-20 bg-secondary/10 rounded-2xl flex items-center justify-center mb-6">
+                                <i class="fa fa-lightbulb-o text-secondary text-3xl"></i>
+                            </div>
+                            <span class="text-secondary font-semibold">阶段 02</span>
+                            <h3 class="text-3xl font-bold mt-2 mb-4">产品孵化</h3>
+                            <p class="text-gray-600">将模糊想法转化为可执行的产品规划</p>
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-2/3">
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-secondary/10 text-secondary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-bullseye"></i>
+                                </span>
+                                目标
+                            </h4>
+                            <p class="text-gray-600">将验证后的想法具体化，形成一份完整的产品需求文档(PRD)，避免"Vibe Coding"(凭感觉编程)</p>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-secondary/10 text-secondary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-user-circle"></i>
+                                </span>
+                                AI角色：首席产品官（CPO）+ 项目经理（PM）
+                            </h4>
+                            <p class="text-gray-600">通过多角色扮演的头脑风暴，让AI扮演潜在用户、产品经理、竞争对手等角色，挑战和完善产品想法</p>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-secondary/10 text-secondary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-wrench"></i>
+                                </span>
+                                核心工具
+                            </h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 bg-white rounded-lg shadow-sm text-gray-700">ChatGPT o3 (GPT-4o)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-secondary/10 text-secondary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-check-square"></i>
+                                </span>
+                                输出成果
+                            </h4>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-secondary mt-1 mr-3"></i>
+                                    <span>专业的产品需求文档(PRD)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-secondary mt-1 mr-3"></i>
+                                    <span>产品愿景、目标用户、核心功能定义</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-secondary mt-1 mr-3"></i>
+                                    <span>10个可执行的小任务及KPI和Deadline</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 阶段3：产品设计与技术学习 -->
+            <div class="max-w-5xl mx-auto mb-24">
+                <div class="flex flex-col md:flex-row gap-10">
+                    <div class="md:w-1/3">
+                        <div class="sticky top-32">
+                            <div class="w-20 h-20 bg-accent/10 rounded-2xl flex items-center justify-center mb-6">
+                                <i class="fa fa-paint-brush text-accent text-3xl"></i>
+                            </div>
+                            <span class="text-accent font-semibold">阶段 03</span>
+                            <h3 class="text-3xl font-bold mt-2 mb-4">产品设计与技术学习</h3>
+                            <p class="text-gray-600">快速掌握开发技能，锁定最优技术方案</p>
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-2/3">
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-accent/10 text-accent rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-bullseye"></i>
+                                </span>
+                                目标
+                            </h4>
+                            <p class="text-gray-600">快速学习开发所需的新技术，寻找设计灵感和技术资源，采用"Learning by doing"的模式</p>
+                            <div class="mt-4 bg-white p-4 rounded-lg shadow-sm">
+                                <h5 class="font-medium text-gray-800 mb-2">关键提示词示例：</h5>
+                                <p class="text-sm text-gray-600 italic">"我是一个零基础的 Swift 学习者。请帮我详细总结这个 YouTube 视频的内容，用要点形式列出所有关键概念，并为每个概念附上视频中的时间戳..."</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-accent/10 text-accent rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-user-circle"></i>
+                                </span>
+                                AI角色：首席学习官（CLO）+ 首席信息官（CIO）
+                            </h4>
+                            <p class="text-gray-600">帮助快速学习新技术，搜索可用的开源框架和工具，并能将GitHub仓库变成AI问答库，快速理解和使用开源代码</p>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-accent/10 text-accent rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-wrench"></i>
+                                </span>
+                                核心工具
+                            </h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 bg-white rounded-lg shadow-sm text-gray-700">Gemini 2.5 Pro</span>
+                                <span class="px-4 py-2 bg-white rounded-lg shadow-sm text-gray-700">Perplexity</span>
+                                <span class="px-4 py-2 bg-white rounded-lg shadow-sm text-gray-700">DeepWiki</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-accent/10 text-accent rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-check-square"></i>
+                                </span>
+                                输出成果
+                            </h4>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-accent mt-1 mr-3"></i>
+                                    <span>核心技术知识点总结与学习路径</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-accent mt-1 mr-3"></i>
+                                    <span>技术选型方案与开源框架资源</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-accent mt-1 mr-3"></i>
+                                    <span>代码库理解与使用指南</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 阶段4：核心构建 -->
+            <div class="max-w-5xl mx-auto mb-24">
+                <div class="flex flex-col md:flex-row gap-10">
+                    <div class="md:w-1/3">
+                        <div class="sticky top-32">
+                            <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
+                                <i class="fa fa-code text-primary text-3xl"></i>
+                            </div>
+                            <span class="text-primary font-semibold">阶段 04</span>
+                            <h3 class="text-3xl font-bold mt-2 mb-4">核心构建</h3>
+                            <p class="text-gray-600">将PRD转化为可运行产品</p>
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-2/3">
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-bullseye"></i>
+                                </span>
+                                目标
+                            </h4>
+                            <p class="text-gray-600">将前端UI和后端逻辑代码化，构建出产品原型，将设计和规划转化为实际可运行的代码</p>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-user-circle"></i>
+                                </span>
+                                AI角色：首席工程师（CTO）
+                            </h4>
+                            <p class="text-gray-600">将PRD文档作为上下文提供给AI助手，让AI充分理解项目背景，从而更精准、高效地编写和修改代码</p>
+                            <div class="mt-4 bg-white p-4 rounded-lg shadow-sm">
+                                <h5 class="font-medium text-gray-800 mb-2">关键提示词示例：</h5>
+                                <p class="text-sm text-gray-600 italic">"@PRD.md @io/DictationManager.swift 根据PRD中的核心功能部分，在DictationManager.swift中实现实时音频捕捉和流式传输逻辑..."</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-wrench"></i>
+                                </span>
+                                核心工具
+                            </h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 bg-white rounded-lg shadow-sm text-gray-700">v0.dev / bolt.new</span>
+                                <span class="px-4 py-2 bg-white rounded-lg shadow-sm text-gray-700">Cursor</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-check-square"></i>
+                                </span>
+                                输出成果
+                            </h4>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-primary mt-1 mr-3"></i>
+                                    <span>前端UI框架代码（React/Tailwind CSS）</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-primary mt-1 mr-3"></i>
+                                    <span>后端逻辑和功能代码</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-primary mt-1 mr-3"></i>
+                                    <span>可运行的产品原型</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 阶段5：营销与公开构建 -->
+            <div class="max-w-5xl mx-auto">
+                <div class="flex flex-col md:flex-row gap-10">
+                    <div class="md:w-1/3">
+                        <div class="sticky top-32">
+                            <div class="w-20 h-20 bg-secondary/10 rounded-2xl flex items-center justify-center mb-6">
+                                <i class="fa fa-bullhorn text-secondary text-3xl"></i>
+                            </div>
+                            <span class="text-secondary font-semibold">阶段 05</span>
+                            <h3 class="text-3xl font-bold mt-2 mb-4">营销与公开构建</h3>
+                            <p class="text-gray-600">冷启动获客，建立用户护城河</p>
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-2/3">
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-secondary/10 text-secondary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-bullseye"></i>
+                                </span>
+                                目标
+                            </h4>
+                            <p class="text-gray-600">建立用户社群，获取早期反馈，完成产品从0到1的冷启动，这是最重要但最容易被忽视的阶段</p>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-secondary/10 text-secondary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-user-circle"></i>
+                                </span>
+                                AI角色：赋能工具
+                            </h4>
+                            <p class="text-gray-600">在这个阶段，AI更多是赋能工具，而核心是创始人自己，需要扮演首席营销官(CMO)和首席增长官(CGO)的角色</p>
+                            <div class="mt-4 bg-white p-4 rounded-lg shadow-sm">
+                                <h5 class="font-medium text-gray-800 mb-2">关键提示词示例：</h5>
+                                <p class="text-sm text-gray-600 italic">"请为我制定一个为期一个月的'Build in Public'内容发布日历，平台是X(Twitter)和即刻。内容应真实、有价值，并能吸引目标用户..."</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-secondary/10 text-secondary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-wrench"></i>
+                                </span>
+                                核心方法
+                            </h4>
+                            <p class="text-gray-600 mb-4"><strong>Build in Public（公开构建）</strong>：即在产品未完善时就勇敢地展示给种子用户，让他们参与进来，建立信任和社群</p>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 bg-white rounded-lg shadow-sm text-gray-700">社交媒体分享</span>
+                                <span class="px-4 py-2 bg-white rounded-lg shadow-sm text-gray-700">Discord/微信群</span>
+                                <span class="px-4 py-2 bg-white rounded-lg shadow-sm text-gray-700">AI辅助文案创作</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-light rounded-2xl p-8">
+                            <h4 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 bg-secondary/10 text-secondary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fa fa-check-square"></i>
+                                </span>
+                                输出成果
+                            </h4>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-secondary mt-1 mr-3"></i>
+                                    <span>早期种子用户社群</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-secondary mt-1 mr-3"></i>
+                                    <span>用户反馈收集与产品迭代</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-secondary mt-1 mr-3"></i>
+                                    <span>建立产品信任和品牌认知</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关键启示 -->
+    <section id="insights" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+                    深度思考
+                </span>
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-6">AI时代的产品开发护城河</h2>
+                <p class="text-lg text-gray-600">技术门槛已大幅降低，真正的壁垒是什么？</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-3xl p-8 md:p-12 shadow-xl relative overflow-hidden">
+                    <!-- 装饰元素 -->
+                    <div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/5 rounded-full"></div>
+                    <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-secondary/5 rounded-full"></div>
+                    
+                    <div class="relative z-10">
+                        <blockquote class="text-2xl md:text-3xl font-bold text-dark mb-8 italic">
+                            "技术门槛已大幅降低，真正的壁垒是<strong class="text-primary">人性洞察+品味+用户连接</strong>。"
+                        </blockquote>
+                        
+                        <p class="text-gray-600 mb-8">
+                            AI能帮你写代码、做调研，但"用户为什么需要你的产品"、"如何让他们愿意分享"，需要创始人亲自打磨。这套五阶段系统的核心，是让AI承担重复劳动，释放人去做更难被替代的"战略与连接"工作。
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                            <div class="text-center p-6 bg-light rounded-2xl">
+                                <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fa fa-heart text-primary text-xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold mb-2">人性洞察</h3>
+                                <p class="text-gray-600 text-sm">理解用户真实需求和痛点</p>
+                            </div>
+                            
+                            <div class="text-center p-6 bg-light rounded-2xl">
+                                <div class="w-14 h-14 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fa fa-eye text-secondary text-xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold mb-2">品味</h3>
+                                <p class="text-gray-600 text-sm">打造用户喜爱的产品体验</p>
+                            </div>
+                            
+                            <div class="text-center p-6 bg-light rounded-2xl">
+                                <div class="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fa fa-comments text-accent text-xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold mb-2">用户连接</h3>
+                                <p class="text-gray-600 text-sm">建立情感共鸣和社群归属感</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 行动呼吁 -->
+    <section id="cta" class="py-16 md:py-24 bg-gradient-to-br from-primary to-primary/80 text-white">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-6">准备好开始你的AI产品开发之旅了吗？</h2>
+                <p class="text-lg text-white/90 mb-10">
+                    无需等待"技术成熟"，用这套五阶段框架，现在就可以把你的想法落地——AI已经帮你组建好了"虚拟团队"。
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#" class="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-xl text-lg font-medium transition-all transform hover:scale-105 shadow-lg">
+                        开始开发我的产品
+                    </a>
+                    <a href="#stages" class="bg-transparent border-2 border-white text-white hover:bg-white/10 px-8 py-4 rounded-xl text-lg font-medium transition-all transform hover:scale-105">
+                        重新查看五阶段系统
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-6 md:mb-0">
+                    <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center">
+                        <i class="fa fa-cogs text-primary text-xl"></i>
+                    </div>
+                    <span class="text-xl font-bold">AI开发系统</span>
+                </div>
+                
+                <div class="flex space-x-6 mb-6 md:mb-0">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-github text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-linkedin text-xl"></i>
+                    </a>
+                </div>
+                
+                <div class="text-gray-400 text-sm">
+                    &copy; 2025 AI开发系统. 保留所有权利.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-2', 'shadow-md');
+                navbar.classList.remove('py-4', 'shadow-sm');
+            } else {
+                navbar.classList.add('py-4', 'shadow-sm');
+                navbar.classList.remove('py-2', 'shadow-md');
+            }
+        });
+        
+        // 移动端菜单切换
+        document.getElementById('menuBtn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 关闭移动菜单（如果打开）
+                    document.getElementById('mobileMenu').classList.add('hidden');
+                }
+            });
+        });
+        
+        // 开发效率对比图表
+        const ctx = document.getElementById('developmentChart').getContext('2d');
+        const developmentChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['战略洞察', '产品孵化', '产品设计', '核心构建', '营销推广', '总计'],
+                datasets: [
+                    {
+                        label: '传统开发 (天)',
+                        data: [14, 21, 28, 42, 35, 140],
+                        backgroundColor: 'rgba(203, 213, 225, 0.7)',
+                        borderColor: 'rgba(203, 213, 225, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'AI辅助开发 (小时)',
+                        data: [1.5, 2.5, 2, 8, 4, 18],
+                        backgroundColor: 'rgba(22, 93, 255, 0.7)',
+                        borderColor: 'rgba(22, 93, 255, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw;
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '时间'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // 页面加载动画
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>
